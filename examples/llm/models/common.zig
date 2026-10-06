@@ -9,6 +9,8 @@ pub const SessionOptions = struct {
 
 pub const GenerationOptions = struct {
     sampling_strategy: zml.nn.SamplingStrategy = .{},
+    /// Only honored by models with a switchable thinking mode, e.g. Qwen3.
+    enable_thinking: bool = true,
 };
 
 pub const Phase = enum {

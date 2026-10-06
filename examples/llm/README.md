@@ -16,7 +16,12 @@ To load a model from HuggingFace directly:
 # CPU
 bazel run //examples/llm -- --model=hf://meta-llama/Llama-3.1-8B-Instruct
 # CUDA
-bazel run //examples/llm --@zml//platforms:cuda=true -- --model=hf://meta-llama/Llama-3.1-8B-Instruct
+bazel run //examples/llm --config=release --@zml//platforms:cuda=true -- --model=hf://meta-llama/Llama-3.2-1B-Instruct
+# NEW: CUDA Qwen3 with thinking disabled
+bazel run //examples/llm --config=release --@zml//platforms:cuda=true -- \
+  --model=hf://Qwen/Qwen3-0.6B \
+  --prompt="What is the capital of France?" \
+  --no-think
 # ROCm
 bazel run //examples/llm --@zml//platforms:rocm=true -- --model=hf://meta-llama/Llama-3.1-8B-Instruct
 ```

@@ -42,6 +42,7 @@ brew install bazelisk
 ```bash
 curl -L -o /usr/local/bin/bazel 'https://github.com/bazelbuild/bazelisk/releases/download/v1.28.0/bazelisk-linux-amd64'
 chmod +x /usr/local/bin/bazel
+bazel run @apt_cpu//:lock
 ```
 
 ## 30-Second Smoke Test

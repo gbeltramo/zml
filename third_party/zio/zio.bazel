@@ -9,28 +9,40 @@ zig_option(
 )
 
 string_flag(
-    name = "resolve_beneath_mode",
+    name = "resolve_beneath_mode_flag",
     build_setting_default = "strict",
     values = ["strict", "best_effort"],
 )
 
+config_setting(
+    name = "resolve_beneath_mode_strict",
+    flag_values = {":resolve_beneath_mode_flag": "strict"},
+)
+
+config_setting(
+    name = "resolve_beneath_mode_best_effort",
+    flag_values = {":resolve_beneath_mode_flag": "best_effort"},
+)
+
 zig_option(
-    name = "resolve_beneath_mode_option",
-    flag = ":resolve_beneath_mode",
-    enum_name = "ResolveBeneathMode",
+    name = "resolve_beneath_mode",
+    string = select({
+        ":resolve_beneath_mode_best_effort": "best_effort",
+        ":resolve_beneath_mode_strict": "strict",
+    }),
 )
 
 zig_option(name = "no_hacks", bool = False)
-zig_option(name = "task_migration", bool = True)
+zig_option(name = "scheduling", string = "work_stealing")
 zig_option(name = "scheduler_metrics", bool = False)
 
 zig_options(
-    name = "zio_options",
+    name = "zio_build_options",
     settings = [
         ":backend",
-        ":resolve_beneath_mode_option",
+        ":resolve_beneath_mode",
         ":no_hacks",
-        ":task_migration",
+        ":scheduling",
         ":scheduler_metrics",
     ],
 )
@@ -39,6 +51,6 @@ zig_library(
     name = "zio",
     main = "src/zio.zig",
     srcs = glob(["src/**/*.zig"]),
-    deps = [":zio_options"],
+    deps = [":zio_build_options"],
     visibility = ["//visibility:public"],
 )
